@@ -5,7 +5,7 @@ var isPrime = function(x){
   if (isNaN(x) || !isFinite(x) || x % 1 || x < 2) {
     return false;
   }
-  var m = Math.sqrt(x); // largest factor will never be larger than square root of n
+  var m = Math.sqrt(x); // largest factor will never be larger than square root of x
   for (var i = 2; i <= m; i++) {
     if (x % i === 0)
       return false;
@@ -13,25 +13,15 @@ var isPrime = function(x){
  return true;
 };
 
-// get array of primes less than n
-var getPrimes = function(n){
-  var primes = [];
-  for (i = 2; i < n; i++){
-    if (isPrime(i)) {
-      primes.push(i);
-    }
-  }
-  return primes;
-};
-
-// iterate from largest to smallest prime, seeing if n is divisible by prime. the first to have remainder of 0 is returned.
+// divide n by (n - i) until remainder is 0, see if n-i is prime, and if so, return it.
 var findLargestPrimeFactor = function(n){
-  var candidates = getPrimes(n).reverse();
-  for (i = 0; i < candidates.length; i++){
-    if(n % candidates[i] === 0){
-      return candidates[i];
+  var m = Math.round(Math.sqrt(n)); // largest factor will never be larger than square root of n
+  for (var i = 0; i < m; i++) {
+    if (n % (m - i) === 0 && isPrime(m - i)) {
+      return (m - i);
     }
   }
 };
 
 console.log(findLargestPrimeFactor(600851475143));
+// returns 6857
